@@ -1,0 +1,186 @@
+body {
+    color: #fff;
+    background: #232323;
+    font-family: 'Open Sans', sans-serif;
+    padding: 0px !important;
+    margin: 0px !important;
+    font-size: 12px;
+}
+
+button.btn-lg {
+    background: #981E32;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 20px;
+    display:block;
+    width: 100%;
+    padding: 10px 16px;
+    line-height: 1.33;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+/* HEADER */
+
+.header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1002;
+}
+
+.black-bg {
+    background: #000;
+    border-bottom: 1px solid #981E32;
+}
+
+.app-title {
+    font-size: 36px;
+    color: #fff;
+    float: left;
+    margin-top: 15px;
+    text-transform: uppercase;
+    line-height: 79px;
+    font-weight: 300;
+}
+
+/* LOGO */
+
+header #logo {
+    width: auto;
+    max-width: none;
+    display: block;
+    line-height: 22px;
+    font-size: 22px;
+    letter-spacing: -1.5px;
+    color: #444444;
+    font-family: 'Open Sans', sans-serif;
+    float: left;
+    padding-right: 15px;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+header #logo.no-image {
+    margin-top: 4px;
+}
+
+header #logo .retina-logo {
+    display: none !important;
+}
+
+header #logo .starting-logo {
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    left: 0;
+}
+
+@media only screen and (-moz-min-device-pixel-ratio: 1.5),
+only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (min-device-pixel-ratio: 1.5),
+only screen and (min-resolution: 144dpi) {
+    header #logo .retina-logo {
+        display: block !important;
+    }
+    header #logo .default-logo {
+        display: none !important;
+    }
+}
+
+@media only screen and (min-device-width: 24.615em) and (max-device-width: 78.769em) {
+    header #logo .retina-logo {
+        display: block !important;
+    }
+    header #logo .default-logo {
+        display: none !important;
+    }
+}
+
+
+header #logo:hover {
+    color: #981E32;
+}
+
+header #logo img {
+    /*max-height: 30px;*/
+    text-indent: -9999px;
+    max-width: none;
+    width: auto;
+    height: 79px;
+    margin-bottom: 0px;
+    display: block;
+    -webkit-transition: opacity 0.4s ease;
+    transition: opacity 0.4s ease;
+}
+
+/* BODY */
+
+#body {
+    margin-left: 2%;
+    margin-bottom: 15%;
+    margin-right: 610px;
+    border-style: dotted;
+    float: left;
+    padding: 15px 45px;
+}
+
+#content {
+    display: table;
+}
+
+#pageFooter {
+    display: table-footer-group;
+}
+
+#pageFooter:after {
+    counter-increment: page;
+    content: counter(page);
+}
+
+input {
+    height: 28px;
+    width: 400px;
+    word-wrap: break-word;
+}
+
+#html-2-pdfwrapper {
+    position: absolute;
+    left: 20px;
+    top: 50px;
+    bottom: 0;
+    overflow: auto;
+    width: 600px;
+}
+
+.page-break {
+    page-break-after: always;
+    page-break-inside: avoid;
+    clear: both;
+}
+
+.page-break-before {
+    page-break-before: always;
+    page-break-inside: avoid;
+    clear: both;
+}
+
+/* PDF/WORD WRAPPER */
+
+#html-2-pdfwrapper {
+    color: #000;
+}
+
+/* PDF Popout  */
+
+iframe {
+    border: none;
+    margin-top: 85px;
+}
+
+#pdf-results-div-holder {}
