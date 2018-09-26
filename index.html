@@ -11,18 +11,18 @@
     <meta name="author" content="">
     <meta name="keyword" content="">
 
-    <!-- LOCAL -->
-    <link href="resources/css/style.css" rel="stylesheet">
-    
     <!-- VENDORS -->
     <link href="vendors/css/bootstrap-grid.min.css" rel="stylesheet">
-<!--    <link href="vendors/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="vendors/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- LOCAL -->
+    <link href="resources/css/style.css" rel="stylesheet">
 </head>
 
 <body>
 
     <noscript><div id="noscript-wrapper">Molloy College needs JavaScript enabled in your browser.</div></noscript>
-    
+
     <!--header start-->
     <header class="header black-bg" style="position: relative;height: 100px;">
         <div class="sidebar-toggle-box">
@@ -34,12 +34,48 @@
 		  <img class="retina-logo" alt="Molloy College" src="resources/img/molloy_logo_256x158_300dpi.png" /> 							
 		</a>
         <!--logo end-->
-        <h3 class="app-title">Job Listing <span style="color: #981E32;">Generator</span></h3> 
+        <h3 class="app-title">Job Listing <span style="color: #981E32;">Generator</span></h3>
     </header>
     <br>
 
     <div id="body">
+        
         <h2 style="text-align: left;">Insert relevant pdf information into the respective fields below: </h2>
+
+        <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+            </ul>
+
+            <!-- The slideshow -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <!-- SLIDE 1 -->
+                    
+                </div>
+                <div class="carousel-item">
+                    <!-- SLIDE 2 -->
+
+                </div>
+                <div class="carousel-item">
+                    <!-- SLIDE 3 -->
+
+                </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+        </div>
+
         <div style="width: 45%; float: left;">
             <p>
                 <h3>Position Title: </h3><input id="title-input" type="input" /></p>
@@ -75,7 +111,7 @@
     </div>
 
     <div id="pdf-results-div-holder">
-            
+
     </div>
 
     <!-- HIDDEN PDF -->
@@ -123,5 +159,7 @@
 <script src='vendors/js/jspdf.min.js'></script>
 <script src="vendors/js/html2pdf.bundle.min.js"></script>
 <script src="resources/js/script.js"></script>
+<script src="vendors/js/bootstrap.min.js"></script>
+<script src="vendors/js/bootstrap.bundle.min.js"></script>
 
 </html>
