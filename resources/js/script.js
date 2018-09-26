@@ -20,9 +20,9 @@
          margins);
 
      var iframe = document.createElement('iframe');
-     iframe.setAttribute('style', 'position:absolute;right:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
+     iframe.setAttribute('style', 'position: absolute; right: 0; top: 0; bottom: 0; height:100%; width:700px; padding:20px;');
      document.body.appendChild(iframe);
-
+     
      iframe.src = pdf.output('datauristring');
  };
 
@@ -93,6 +93,7 @@
      $('#position-title-top').append(title.toUpperCase());
      $('#bottom-title').append(title);
      
+     
      let dep = $('#department-input').val();
      $('#department-fill').append(dep);
      $('#bottom-department').append(dep);
@@ -105,14 +106,22 @@
 
      $('#hours-fill').append($('#hours-input').val());
      $('#general-fill').append($('#general-input').val());
-     $('#essential-fill').append($('#essential-input').val());
-
-     $('#desired-fill').append(
-         $('#work-input').val() + " " +
-         $('#knowledge-input').val() + " " +
-         $('#education-input').val() + " " +
-         $('#computer-input').val()
-     );
+     
+     // TODO:
+     $('#essential-1-fill').append($('#essential-1-input').val());
+     $('#essential-2-fill').append($('#essential-2-input').val());
+     $('#essential-3-fill').append($('#essential-3-input').val());
+     $('#essential-4-fill').append($('#essential-4-input').val());
+     $('#essential-5-fill').append($('#essential-5-input').val());
+     $('#essential-6-fill').append($('#essential-6-input').val());
+     
+     // TODO:
+     $('#desired-1-fill').append($('#desired-1-input').val());
+     $('#desired-2-fill').append($('#desired-2-input').val());
+     $('#desired-3-fill').append($('#desired-3-input').val());
+     $('#desired-4-fill').append($('#desired-4-input').val());
+     $('#desired-5-fill').append($('#desired-5-input').val());
+     $('#desired-6-fill').append($('#desired-6-input').val());
 
      $('#supervision-fill').append($('#supervision-input').val());
  }

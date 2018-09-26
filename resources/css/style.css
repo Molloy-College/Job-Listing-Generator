@@ -1,10 +1,19 @@
 body {
-    color: #fff;
-    background: #232323;
+    color: #575656;
+    background: #f5f5f5; /*#232323*/
     font-family: 'Open Sans', sans-serif;
     padding: 0px !important;
     margin: 0px !important;
-    font-size: 12px;
+    font-size: 12px !important;
+}
+
+h2 {
+    font-size: 
+}
+
+textarea {
+    height: 70px; 
+    width: 400px;
 }
 
 button.btn-lg {
@@ -121,15 +130,6 @@ header #logo img {
 
 /* BODY */
 
-#body {
-    margin-left: 2%;
-    margin-bottom: 15%;
-    margin-right: 610px;
-    border-style: dotted;
-    float: left;
-    padding: 15px 45px;
-}
-
 #content {
     display: table;
 }
@@ -171,6 +171,40 @@ input {
 }
 
 /*  CAROUSEL  */
+
+#carousel-wrapper {
+    margin-left: 5%;
+    margin-bottom: 15%;
+    margin-right: 610px;
+    /*border-style: solid;
+    border-width: 1px;*/
+    border-color: rgba(87, 86, 86, 0.23);
+    /*background-color: rgb(239, 239, 239);*/
+    float: left;
+    padding: 45px 45px;
+    z-index: -1;
+}
+
+.arrow {
+    border: solid #981E32;
+    border-width: 0 10px 10px 0;
+    display: inline-block;
+    padding: 15px;
+    vertical-align: middle;
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    margin-left: 200px;
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    margin-right: 200px;
+}
+
 
 /* PDF/WORD WRAPPER */
 

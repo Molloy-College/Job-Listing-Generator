@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <title>Molloy - Job Listing</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=10,IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="description" content="">
@@ -20,7 +19,6 @@
 </head>
 
 <body>
-
     <noscript><div id="noscript-wrapper">Molloy College needs JavaScript enabled in your browser.</div></noscript>
 
     <!--header start-->
@@ -36,121 +34,135 @@
         <!--logo end-->
         <h3 class="app-title">Job Listing <span style="color: #981E32;">Generator</span></h3>
     </header>
-    <br>
+    <br/>
 
-    <div id="body">
-        
-        <h2 style="text-align: left;">Insert relevant pdf information into the respective fields below: </h2>
+    <h2 style="text-align: left; padding: 15px;">Insert relevant pdf information into the fields below: </h2>
 
-        <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+    <div id="carousel-wrapper">
+
+        <div id="form-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
             <!-- Indicators -->
-            <ul class="carousel-indicators">
-                <li data-target="#demo" data-slide-to="0" class="active"></li>
-                <li data-target="#demo" data-slide-to="1"></li>
-                <li data-target="#demo" data-slide-to="2"></li>
+            <ul style="position: relative;" class="carousel-indicators">
+                <li data-target="#form-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#form-carousel" data-slide-to="1"></li>
+                <li data-target="#form-carousel" data-slide-to="2"></li>
+                <li data-target="#form-carousel" data-slide-to="3"></li>
             </ul>
 
             <!-- The slideshow -->
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <!-- SLIDE 1 -->
-                    
+
+                    <h3>Position Title: </h3><textarea id="title-input" ></textarea>
+                    <h3>Department: </h3><textarea id="department-input"></textarea>
+                    <h3>Supervisor: </h3><textarea id="supervisor-input"></textarea>
+                    <h3>Work Hours & Travel: </h3><textarea id="hours-input"></textarea>
+                    <h3>General Purpose: </h3><textarea id="general-input"></textarea>
+
                 </div>
                 <div class="carousel-item">
                     <!-- SLIDE 2 -->
-
+                    <h3>Essential Functions: </h3>
+                    <ul>
+                        <li><textarea id="essential-1-input"></textarea></li><br/>
+                        <li><textarea id="essential-2-input"></textarea></li><br/>
+                        <li><textarea id="essential-3-input"></textarea></li><br/>
+                        <li><textarea id="essential-4-input"></textarea></li><br/>
+                        <li><textarea id="essential-5-input"></textarea></li><br/>
+                        <li><textarea id="essential-6-input"></textarea></li><br/>
+                    </ul>
                 </div>
                 <div class="carousel-item">
                     <!-- SLIDE 3 -->
-
+                    <h3>Desired Minimum Qualifications: </h3>
+                    <ul>
+                        <li><textarea id="desired-1-input"></textarea></li><br/>
+                        <li><textarea id="desired-2-input"></textarea></li><br/>
+                        <li><textarea id="desired-3-input"></textarea></li><br/>
+                        <li><textarea id="desired-4-input"></textarea></li><br/>
+                        <li><textarea id="desired-5-input"></textarea></li><br/>
+                        <li><textarea id="desired-6-input"></textarea></li><br/>
+<!--                        
+                        <li>Work Experience: <input id="work-input" /><br/><br/></li>
+                        <li>Knowledge: <input id="knowledge-input" /><br/><br/></li>
+                        <li>Education: <input id="education-input" /><br/><br/></li>
+                        <li>Computer and Software Skills: <input id="computer-input" /></li>
+-->
+                    </ul>
+                </div>
+                <div class="carousel-item">
+                    <!-- SLIDE 4 -->
+                    <h3>Supervision Exercised: </h3><textarea id="supervision-input" ></textarea>
+                    
+                    <button style="margin-top: 20px;" class="btn btn-lg btn-login btn-block" id="word-export-button">Generate Word Document (.doc)</button>
+                    <button class="btn btn-lg btn-login btn-block" id="pdf-export-button">Generate PDF (.pdf)</button>
                 </div>
             </div>
 
             <!-- Left and right controls -->
-            <a class="carousel-control-prev" href="#demo" data-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
+            <a class="carousel-control-prev" href="#form-carousel" data-slide="prev">
+    <span class="arrow left"></span>
   </a>
-            <a class="carousel-control-next" href="#demo" data-slide="next">
-    <span class="carousel-control-next-icon"></span>
+            <a class="carousel-control-next" href="#form-carousel" data-slide="next">
+    <span class="arrow right"></span>
   </a>
         </div>
 
-        <div style="width: 45%; float: left;">
-            <p>
-                <h3>Position Title: </h3><input id="title-input" type="input" /></p>
-            <p>
-                <h3>Department: </h3><input id="department-input" type="input" /></p>
-            <p>
-                <h3>Supervisor: </h3><input id="supervisor-input" type="input" /></p>
-            <p>
-                <h3>General Purpose: </h3><textarea id="general-input" type="input" style="height: 170px; width: 100%"></textarea></p>
+        <!-- HIDDEN PDF -->
+        <div style="visibility: hidden;" id="html-2-pdfwrapper" class="word-content">
+            <h3 style="text-align: center;"><span style="color: #a50021;"><strong>MOLLOY COLLEGE</strong></span></h3>
+            <h3 style="text-align: center;"><strong><span id="position-title-top"></span></strong></h3>
+            <h3 style="text-align: left;"><strong>DEPARTMENT: </strong><span style="font-weight:normal" id="department-fill"></span> <strong><br /> SUPERVISOR: </strong><span style="font-weight:normal" id="supervisor-fill"></span><br /><strong>HOURS: </strong><span style="font-weight:normal" id="hours-fill"></span></h3>
+
+            <h3><span style="color: #a50021;"><strong>GENERAL PURPOSE</strong></span></h3>
+            <div id="general-fill"></div>
+
+            <h3><span style="color: #a50021;"><strong>ESSENTIAL DUTIES AND RESPONSIBILITIES</strong></span></h3>
+            <ul>
+                <li id="essential-1-fill"></li>
+                <li id="essential-2-fill"></li>
+                <li id="essential-3-fill"></li>
+                <li id="essential-4-fill"></li>
+                <li id="essential-5-fill"></li>
+                <li id="essential-6-fill"></li>
+            </ul>
+            <div id="essential-fill"></div>
+
+            <h3><span style="color: #a50021;"><strong>DESIRED MINIMUM QUALIFICATIONS</strong></span></h3>
+            <ul>
+                <li id="desired-1-fill"></li>
+                <li id="desired-2-fill"></li>
+                <li id="desired-3-fill"></li>
+                <li id="desired-4-fill"></li>
+                <li id="desired-5-fill"></li>
+                <li id="desired-6-fill"></li>
+            </ul>
+            <div id="desired-fill"></div>
+
+            <h3><span style="color: #a50021;"><strong>SUPERVISION EXERCISED</strong></span></h3>
+            <div id="supervision-fill"></div>
+
+            <h3><span style="color: #a50021;"><strong>TOOLS AND EQUIPMENT USED</strong></span></h3> <span>Desktop computer, including spreadsheet and word processing software; copy machine; fax machine, printers, and scanners.</span>
+
+            <h3><span style="color: #a50021;"><strong>PHYSICAL DEMANDS</strong></span></h3>
+            <p>The physical demands described here are representative of those that must be met by an employee to successfully perform the essential functions of this job. Reasonable accommodations may be made to enable individuals with disabilities to perform the essential functions. While performing the duties of this job, the employee is frequently required to sit, talk and hear. The employee is occasionally required to walk; use hands and fingers to operate, handle, or feel objects, tools, or controls; and reach with hands and arms. The employee must occasionally lift and/or move up to 10 pounds. Specific vision abilities required by this job include close vision and the ability to adjust focus.</p>
+
+            <h3><span style="color: #a50021;"><strong>WORK ENVIRONMENT</strong></span></h3>
+            <p>The work environment characteristics described here are representative of those an employee encounters while performing the essential functions of this job. Reasonable accommodations may be made to enable individuals with disabilities to perform the essential functions. The noise level in the work environment is usually moderately quiet.</p>
+            <p><strong>The job description does not constitute an employment agreement between the employer and employee and is subject to change by the employer as the needs of the employer and requirements of the job change.</strong></p>
+
+            <p style="text-align: left;"><strong>TO APPLY</strong>: Email resume and cover letter to <a href="mailto:humanresources@molloy.edu">humanresources@molloy.edu</a> or mail to:<br /><br /></p>
+            <p style="text-align: left; overflow:visible;">Office of Human Resources, Molloy College<br/>1000 Hempstead Ave.<br/>Rockville Centre, NY 11571-5002</p>
+            <p><br/> AN EQUAL OPPORTUNITY EMPLOYER</p>
+            <p>Women, minorities, persons with disabilities and veterans are encouraged to apply.</p>
+            <p style="text-align: left;">&nbsp;</p>
+            <hr>
+            <!--<p><span id="bottom-title"></span><br /><span id="bottom-department"></span><br /><span id="bottom-date"></span></p>-->
+            <p style="text-align: center;">&nbsp;</p>
         </div>
-
-        <div style="width: 45%; float: right;">
-
-            <p>
-                <h3>Work Hours & Travel: </h3><input id="hours-input" type="input" /></p>
-            <p>
-                <h3>Essential Functions: </h3><input id="essential-input" type="input" /></p>
-            <p>
-                <h3>Desired Minimum Qualifications: </h3>
-                <ul>
-                    <li>Work Experience: </li><input id="work-input" type="input" /><br/><br/>
-                    <li>Knowledge: </li><input id="knowledge-input" type="input" /><br/><br/>
-                    <li>Education: </li><input id="education-input" type="input" /><br/><br/>
-                    <li>Computer and Software Skills: </li><input id="computer-input" type="input" />
-                </ul>
-            </p>
-            <p>
-                <h3>Supervision Exercised: </h3><input id="supervision-input" type="input" /></p>
-
-        </div>
-        <button style="margin-top: 20px;" class="btn btn-lg btn-login btn-block" id="word-export-button" href="javascript:void(0)">Generate Word Document (.doc)</button>
-        <button class="btn btn-lg btn-login btn-block" id="pdf-export-button" href="javascript:void(0)">Generate PDF (.pdf)</button>
     </div>
-
-    <div id="pdf-results-div-holder">
-
-    </div>
-
-    <!-- HIDDEN PDF -->
-    <div style="visibility: hidden;" id="html-2-pdfwrapper" class="word-content">
-        <h3 style="text-align: center;"><span style="color: #a50021;"><strong>MOLLOY COLLEGE</strong></span></h3>
-        <h3 style="text-align: center;"><strong><span id="position-title-top"></span></strong></h3>
-        <h3 style="text-align: left;"><strong>DEPARTMENT: </strong><span style="font-weight:normal" id="department-fill"></span> <strong><br /> SUPERVISOR: </strong><span style="font-weight:normal" id="supervisor-fill"></span><br /><strong>HOURS: </strong><span style="font-weight:normal" id="hours-fill"></span></h3>
-
-        <h3><span style="color: #a50021;"><strong>GENERAL PURPOSE</strong></span></h3>
-        <div id="general-fill"></div>
-
-        <h3><span style="color: #a50021;"><strong>ESSENTIAL DUTIES AND RESPONSIBILITIES</strong></span></h3>
-        <div id="essential-fill"></div>
-
-        <h3><span style="color: #a50021;"><strong>DESIRED MINIMUM QUALIFICATIONS</strong></span></h3>
-        <div id="desired-fill"></div>
-
-        <h3><span style="color: #a50021;"><strong>SUPERVISION EXERCISED</strong></span></h3>
-        <div id="supervision-fill"></div>
-
-        <h3><span style="color: #a50021;"><strong>TOOLS AND EQUIPMENT USED</strong></span></h3> <span>Desktop computer, including spreadsheet and word processing software; copy machine; fax machine, printers, and scanners.</span>
-
-        <h3><span style="color: #a50021;"><strong>PHYSICAL DEMANDS</strong></span></h3>
-        <p>The physical demands described here are representative of those that must be met by an employee to successfully perform the essential functions of this job. Reasonable accommodations may be made to enable individuals with disabilities to perform the essential functions. While performing the duties of this job, the employee is frequently required to sit, talk and hear. The employee is occasionally required to walk; use hands and fingers to operate, handle, or feel objects, tools, or controls; and reach with hands and arms. The employee must occasionally lift and/or move up to 10 pounds. Specific vision abilities required by this job include close vision and the ability to adjust focus.</p>
-
-        <h3><span style="color: #a50021;"><strong>WORK ENVIRONMENT</strong></span></h3>
-        <p>The work environment characteristics described here are representative of those an employee encounters while performing the essential functions of this job. Reasonable accommodations may be made to enable individuals with disabilities to perform the essential functions. The noise level in the work environment is usually moderately quiet.</p>
-        <p><strong>The job description does not constitute an employment agreement between the employer and employee and is subject to change by the employer as the needs of the employer and requirements of the job change.</strong></p>
-
-        <p style="text-align: left;"><strong>TO APPLY</strong>: Email resume and cover letter to <a href="mailto:humanresources@molloy.edu">humanresources@molloy.edu</a> or mail to:<br /><br /></p>
-        <p style="text-align: left; overflow:visible;">Office of Human Resources, Molloy College<br/>1000 Hempstead Ave.<br/>Rockville Centre, NY 11571-5002</p>
-        <p><br/> AN EQUAL OPPORTUNITY EMPLOYER</p>
-        <p>Women, minorities, persons with disabilities and veterans are encouraged to apply.</p>
-        <p style="text-align: left;">&nbsp;</p>
-        <hr>
-        <!--<p><span id="bottom-title"></span><br /><span id="bottom-department"></span><br /><span id="bottom-date"></span></p>-->
-        <p style="text-align: center;">&nbsp;</p>
-    </div>
-
 </body>
 
 <script src="vendors/js/jquery.js"></script>
