@@ -8,6 +8,7 @@
  generate = function () {
      var pdf = new jsPDF('p', 'pt', 'a4');
      pdf.setFontSize(16);
+     
      pdf.fromHTML(document.getElementById('html-2-pdfwrapper'),
          margins.left, // x coord
          margins.top, {
@@ -18,12 +19,13 @@
              headerFooterFormatting(pdf, pdf.internal.getNumberOfPages());
          },
          margins);
-
+     /*
      var iframe = document.createElement('iframe');
-     iframe.setAttribute('style', 'position: absolute; right: 0; top: 0; bottom: 0; height:100%; width:700px; padding:20px;');
+     iframe.setAttribute('style', 'position: absolute; right: 0; top: 0; bottom: 0; height:91%; width:700px; padding:20px;');
      document.body.appendChild(iframe);
-     
      iframe.src = pdf.output('datauristring');
+     */
+     window.open(pdf.output('bloburl'), '_blank');
  };
 
  function headerFooterFormatting(doc, totalPages) {

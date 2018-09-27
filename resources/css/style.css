@@ -7,33 +7,6 @@ body {
     font-size: 12px !important;
 }
 
-h2 {
-    font-size: 
-}
-
-textarea {
-    height: 70px; 
-    width: 400px;
-}
-
-button.btn-lg {
-    background: #981E32;
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-family: 'Open Sans', sans-serif;
-    margin-bottom: 20px;
-    display:block;
-    width: 100%;
-    padding: 10px 16px;
-    line-height: 1.33;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    cursor: pointer;
-    border: 1px solid transparent;
-}
-
 /* HEADER */
 
 .header {
@@ -130,6 +103,12 @@ header #logo img {
 
 /* BODY */
 
+#body-heading {
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: #981E32;
+}
+
 #content {
     display: table;
 }
@@ -172,17 +151,55 @@ input {
 
 /*  CAROUSEL  */
 
+button.btn-lg {
+    background: #981E32;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 20px;
+    display:block;
+    width: 83%;
+    padding: 10px 16px;
+    line-height: 1.33;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+textarea {
+    height: 70px; 
+    width: 83%;
+}
+
+#form-carousel {
+    padding-left: 15%;
+}
+
+.carousel-indicators {
+    margin-left: 0;
+}
+
 #carousel-wrapper {
-    margin-left: 5%;
-    margin-bottom: 15%;
-    margin-right: 610px;
+/*    margin-left: 5%;*/
+/*    margin-bottom: 15%;*/
+/*    margin-right: 610px;*/
     /*border-style: solid;
     border-width: 1px;*/
+    width: 80%;
+    margin-left:10%;
+    margin-right:10%;
     border-color: rgba(87, 86, 86, 0.23);
     /*background-color: rgb(239, 239, 239);*/
     float: left;
     padding: 45px 45px;
     z-index: -1;
+}
+
+.bulleted-text-area {
+    width: 80%;
 }
 
 .arrow {
@@ -196,13 +213,11 @@ input {
 .right {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
-    margin-left: 200px;
 }
 
 .left {
     transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
-    margin-right: 200px;
 }
 
 
