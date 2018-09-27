@@ -140,6 +140,18 @@
      $('#essential-fill').empty();
      $('#desired-fill').empty();
      $('#supervision-fill').empty();
+     $('#essential-1-fill').empty();
+     $('#essential-2-fill').empty();
+     $('#essential-3-fill').empty();
+     $('#essential-4-fill').empty();
+     $('#essential-5-fill').empty();
+     $('#essential-6-fill').empty();
+     $('#desired-1-fill').empty();
+     $('#desired-2-fill').empty();
+     $('#desired-3-fill').empty();
+     $('#desired-4-fill').empty();
+     $('#desired-5-fill').empty();
+     $('#desired-6-fill').empty();
  }
 
  // EVENT HANDLERS
