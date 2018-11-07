@@ -5,7 +5,7 @@
      width: 485
  };
 
- generate = function () {
+ function generate() {
      var pdf = new jsPDF('p', 'pt', 'a4');
      pdf.setFontSize(16);
      
@@ -84,7 +84,6 @@
      doc.line(margins.left + 75, doc.internal.pageSize.height - 15, margins.left + 75, doc.internal.pageSize.height - 60); // vertical line at footer
 
      doc.text(str, margins.left, doc.internal.pageSize.height - 30); // page #
-
      doc.text(title, margins.left + 85, doc.internal.pageSize.height - 46); //position title
      doc.text(dep, margins.left + 85, doc.internal.pageSize.height - 33); //department
      doc.text(date, margins.left + 85, doc.internal.pageSize.height - 19); //date
@@ -94,7 +93,6 @@
      let title = $('#title-input').val();
      $('#position-title-top').append(title.toUpperCase());
      $('#bottom-title').append(title);
-     
      
      let dep = $('#department-input').val();
      $('#department-fill').append(dep);
@@ -107,9 +105,9 @@
      $('#supervisor-fill').append(sup);
 
      $('#hours-fill').append($('#hours-input').val());
+     $('#gradeOrSalary-fill').append($('#gradeOrSalary-input').val());
      $('#general-fill').append($('#general-input').val());
      
-     // TODO:
      $('#essential-1-fill').append($('#essential-1-input').val());
      $('#essential-2-fill').append($('#essential-2-input').val());
      $('#essential-3-fill').append($('#essential-3-input').val());
@@ -117,7 +115,6 @@
      $('#essential-5-fill').append($('#essential-5-input').val());
      $('#essential-6-fill').append($('#essential-6-input').val());
      
-     // TODO:
      $('#desired-1-fill').append($('#desired-1-input').val());
      $('#desired-2-fill').append($('#desired-2-input').val());
      $('#desired-3-fill').append($('#desired-3-input').val());
@@ -136,6 +133,7 @@
      $('#bottom-date').empty();
      $('#supervisor-fill').empty();
      $('#hours-fill').empty();
+     $('#gradeOrSalary-fill').empty();
      $('#general-fill').empty();
      $('#essential-fill').empty();
      $('#desired-fill').empty();
