@@ -35,9 +35,32 @@
         <h3 class="app-title">Job Listing <span style="color: #981E32;">Generator</span></h3>
     </header>
     <br/>
-
-    <h1 id="body-heading" style="text-align: left; padding: 15px;">Insert relevant job information into the fields below: </h1>
     <div id="carousel-wrapper">
+        <!-- Upload file for automation -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                     <form>
+                        <div>
+                            <h1 id="body-heading">Automate the Job Listing creation by uploading the Job Description Template in .docx format</h1>
+                            <h3 for="formControl">For <strong><em>.docx</em></strong> Job Description Templates ONLY:</h3>
+                            <input type="file" class="form-control-file" id="formControl">
+                        </div>
+                        <div style="text-align: center;" >
+                            <h1>- OR -</h1>    
+                        </div>
+                        
+                        <h1 id="body-heading">Manually insert relevant job information into the fields below: </h1>
+                          <div>
+                            <!-- <button onclick="onClickPdf()" class="btn btn-primary">Send POST</button> -->
+                          </div>
+                    </form>
+                </div>
+            </div>
+            <div id="results" style="display: none">
+            </div>
+        </div>
+    <!-- Upload file for automation -->
 
         <div id="form-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
@@ -65,19 +88,19 @@
                 <div class="carousel-item">
                     <!-- SLIDE 2 -->
                     <h2>Essential Functions: </h2>
-                    <ul>
+                    <ul id="essential-functions-input-ul">
+                        <li><textarea class="bulleted-text-area" id="essential-0-input"></textarea></li><br/>
                         <li><textarea class="bulleted-text-area" id="essential-1-input"></textarea></li><br/>
                         <li><textarea class="bulleted-text-area" id="essential-2-input"></textarea></li><br/>
                         <li><textarea class="bulleted-text-area" id="essential-3-input"></textarea></li><br/>
                         <li><textarea class="bulleted-text-area" id="essential-4-input"></textarea></li><br/>
                         <li><textarea class="bulleted-text-area" id="essential-5-input"></textarea></li><br/>
-                        <li><textarea class="bulleted-text-area" id="essential-6-input"></textarea></li><br/>
                     </ul>
                 </div>
                 <div class="carousel-item">
                     <!-- SLIDE 3 -->
                     <h2>Desired Minimum Qualifications: </h2>
-                    <ul>
+                    <ul id="desired-functions-input-ul">
                         <li><textarea class="bulleted-text-area" id="desired-1-input"></textarea></li><br/>
                         <li><textarea class="bulleted-text-area" id="desired-2-input"></textarea></li><br/>
                         <li><textarea class="bulleted-text-area" id="desired-3-input"></textarea></li><br/>
@@ -121,24 +144,24 @@
             <p id="general-fill"></p>
 
             <h3><span style="color: #a50021;"><strong>ESSENTIAL DUTIES AND RESPONSIBILITIES</strong></span></h3>
-            <ul>
+            <ul id="ul-essential-fill-for-doc">
+                <li id="essential-0-fill"></li>
                 <li id="essential-1-fill"></li>
                 <li id="essential-2-fill"></li>
                 <li id="essential-3-fill"></li>
                 <li id="essential-4-fill"></li>
                 <li id="essential-5-fill"></li>
-                <li id="essential-6-fill"></li>
             </ul>
             <div id="essential-fill"></div>
 
             <h3><span style="color: #a50021;"><strong>DESIRED MINIMUM QUALIFICATIONS</strong></span></h3>
-            <ul>
+            <ul id="ul-desired-fill-for-doc">
+                <li id="desired-0-fill"></li>
                 <li id="desired-1-fill"></li>
                 <li id="desired-2-fill"></li>
                 <li id="desired-3-fill"></li>
                 <li id="desired-4-fill"></li>
                 <li id="desired-5-fill"></li>
-                <li id="desired-6-fill"></li>
             </ul>
             <div id="desired-fill"></div>
 
@@ -176,8 +199,9 @@
 <script src="vendors/js/jquery.wordexport.js"></script>
 <script src='vendors/js/jspdf.min.js'></script>
 <script src="vendors/js/html2pdf.bundle.min.js"></script>
-<script src="resources/js/script.js"></script>
 <script src="vendors/js/bootstrap.min.js"></script>
 <script src="vendors/js/bootstrap.bundle.min.js"></script>
+<script src="resources/js/scripts.js"></script>
+<script src="resources/js/automation.js"></script>
 
 </html>

@@ -5,7 +5,7 @@
      width: 485
  };
 
- function generate() {
+ function generatePDFWindow() {
      var pdf = new jsPDF('p', 'pt', 'a4');
      pdf.setFontSize(16);
      
@@ -108,19 +108,23 @@
      $('#gradeOrSalary-fill').append($('#gradeOrSalary-input').val());
      $('#general-fill').append($('#general-input').val());
      
-     $('#essential-1-fill').append($('#essential-1-input').val());
-     $('#essential-2-fill').append($('#essential-2-input').val());
-     $('#essential-3-fill').append($('#essential-3-input').val());
-     $('#essential-4-fill').append($('#essential-4-input').val());
-     $('#essential-5-fill').append($('#essential-5-input').val());
-     $('#essential-6-fill').append($('#essential-6-input').val());
+     let arrOfEssentialInputs = [];
+     $('#essential-functions-input-ul li').each(function(index) {
+        arrOfEssentialInputs.push($(this).find('textarea').val());
+     });
+
+     $('#ul-essential-fill-for-doc li').each(function(index) {
+        $(this).append(arrOfEssentialInputs[index]);
+     });
      
-     $('#desired-1-fill').append($('#desired-1-input').val());
-     $('#desired-2-fill').append($('#desired-2-input').val());
-     $('#desired-3-fill').append($('#desired-3-input').val());
-     $('#desired-4-fill').append($('#desired-4-input').val());
-     $('#desired-5-fill').append($('#desired-5-input').val());
-     $('#desired-6-fill').append($('#desired-6-input').val());
+     let arrOfDesiredInputs = [];
+     $('#desired-functions-input-ul li').each(function(index) {
+        arrOfDesiredInputs.push($(this).val());
+     });
+
+     $('#ul-desired-fill-for-doc li').each(function(index) {
+        $(this).append(arrOfDesiredInputs[index]);
+     });
 
      $('#supervision-fill').append($('#supervision-input').val());
  }
@@ -152,15 +156,23 @@
      $('#desired-6-fill').empty();
  }
 
+function generateWord() {
+    resetElements();
+    assignTextFields();
+    $('.word-content').wordExport();
+}
+
+function generatePDF() {
+    resetElements();
+    assignTextFields();
+    generatePDFWindow();
+}
+
  // EVENT HANDLERS
  $('#word-export-button').click(function (events) {
-     resetElements();
-     assignTextFields();
-     $('.word-content').wordExport();
+     generateWord();
  });
 
  $('#pdf-export-button').click(function (events) {
-     resetElements();
-     assignTextFields();
-     generate();
+     generatePDF();
  });
