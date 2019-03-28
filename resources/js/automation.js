@@ -88,18 +88,133 @@ const parseHtml = () => {
 	}
 
 	//////////////
-	// Desired Minimum Qualifications
-	// Sixth Table 
-	$('#results table:nth-child(7) tr td p').each(function(index) {
-		// console.log($(this).text());
+	// DESIRED MINIMUM QUALIFICATIONS
+	let arrayOfDesiredMinimumQualifications = [];
+	// Computer and Software Skills - 7th tabe
+	$('#results table:nth-child(7) tr:nth-child(3) table tr').each(function(index) {
+		switch(index) {
+			case 0: // fall through
+			case 1: break;
+			case 10: 
+				if($(this).text().includes('☒')) {
+					let reqOrPref = 'preferred'; 
+					if($(this).find('td:nth-child(3)').text().includes('☒')) {
+						let reqOrPref = 'required';
+					}
+					
+					let levelOfProficiency = 'Basic';
+					if($(this).find('td:nth-child(6)').text().includes('☒')) {
+						levelOfProficiency = 'Intermediate';
+					} else {
+						levelOfProficiency = 'Advanced';
+					}
+
+					let comments = $(this).find('td:nth-child(8)').text();
+
+					arrayOfDesiredMinimumQualifications.push(
+						levelOfProficiency + 
+						' level of proficiency in a specialized skill/software' +
+						' is ' +
+						reqOrPref +
+						' for this position: ' +
+						comments
+					)
+				} 
+				break;
+			default: 
+				// If 'this' skill is needed for the position
+				if($(this).text().includes('☒')) {
+					let softwareName = $(this).find('td:first-child').text();
+
+					let reqOrPref = 'preferred'; 
+					if($(this).find('td:nth-child(2)').text().includes('☒')) {
+						let reqOrPref = 'required';
+					}
+					
+					let levelOfProficiency = 'Basic';
+					if($(this).find('td:nth-child(5)').text().includes('☒')) {
+						levelOfProficiency = 'Intermediate';
+					} else {
+						levelOfProficiency = 'Advanced';
+					}
+
+					let comments = $(this).find('td:nth-child(7)').text();
+
+					arrayOfDesiredMinimumQualifications.push(
+						levelOfProficiency + 
+						' level of proficiency in ' +
+						softwareName +
+						' is ' +
+						reqOrPref +
+						' for this position. ' +
+						comments
+					) 
+				}
+				break;
+		}
+	})
+
+	// Education - 10th Table
+	$('#results table:nth-child(10) tr:nth-child(3) table tr').each(function(index) {
+		switch(index) {
+			case 0: break;
+			default:
+				// console.log($(this).find('td:first-child').text())
+				if($(this).find('td:first-child').text().includes('☒')) {
+					let levelOfEducation = $(this).find('td:nth-child(2)').text();
+					let fieldOfStudy = $(this).find('td:last-child').text();
+					let comments = $(this).parent().find('tr:last-child').text();
+					arrayOfDesiredMinimumQualifications.push(
+						levelOfEducation +
+						' in ' +
+						fieldOfStudy +
+						" is generally necessary to effectively handle the job's essential functions. " +
+						comments
+					)
+				}
+				break;
+		}
 	});
+	// TODO:
+	// Work Experience - 11th Table
+	if($('#results table:nth-child(11) tr:nth-child(3)').text().includes('☒')) {
+		let minimumWorkExperience = 'Minimum level of work related experience required: '
+		$('#results table:nth-child(11) tr:nth-child(3) td').each(function(index) {
+			if($(this).text().includes('☒')) {
+				minimumWorkExperience = minimumWorkExperience + $(this).text();
+			}
+		});
+	} else if($('#results table:nth-child(11) tr:nth-child(4)').text().includes('☒')) {
+		$('#results table:nth-child(11) tr:nth-child(4) td').each(function(index) {
+			switch(index) {
+				case 0: 
+				case 1:
+				case 2:
+			}
+		});
+	}
+
+	//	Knowledge -	12th Table
+	arrayOfDesiredMinimumQualifications.push($('#results table:nth-child(12) tr:last-child td p').text());
+	console.log(arrayOfDesiredMinimumQualifications);
+
+	// Check if there exists more desired qualifications than available input spaces on the website
+	if(arrayOfDesiredMinimumQualifications.length > 6) {
+		// Add more desired qualifications input spaces
+		for(let i=6; i < arrayOfDesiredMinimumQualifications.length; i++) {
+			$('#desired-qualifications-input-ul').append('<li><textarea class="bulleted-text-area" id="essential-'+i+'-input"></textarea></li><br/>')
+		}
+	}
+	// Enter each essential function into their respective inputs
+	for(let i=0; i<arrayOfDesiredMinimumQualifications.length; i++) {
+		$('#desired-'+i+'-input').val(arrayOfDesiredMinimumQualifications[i]);
+	}
 
 	//////////////
 	// Supervision Exercised
 	// 8th Table 
 	let supervisionExcercisedText = getSupervisionExercisedInfo();
 	$('#supervision-input').val(supervisionExcercisedText);
-
 
 }
 
@@ -130,7 +245,7 @@ const getBasicInfo = () => {
 				// tempText = tempText.substring(6)
 				// arrayOfBasicInfo.push(tempText);
 				break;
-			default:
+			default: break;
 		}
 	});
 	return arrayOfBasicInfo;
@@ -210,8 +325,7 @@ const getWorkHoursAndTravelInfo = () => {
 					workHoursAndTravelText = workHoursAndTravelText + $(this).find('td:last-child').text() + '. ';
 				}
 				break;
-			default:
-				break;
+			default: break;
 		}
 	});
 
