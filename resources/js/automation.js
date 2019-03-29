@@ -51,6 +51,7 @@ const postDocx = (file) => {
 	  $('#results').empty();
 	  $('#results').append(response);
 	  parseHtml();
+	  generateWord();
 	});
 };
 
@@ -90,16 +91,59 @@ const parseHtml = () => {
 	//////////////
 	// DESIRED MINIMUM QUALIFICATIONS
 	let arrayOfDesiredMinimumQualifications = [];
-	// Computer and Software Skills - 7th tabe
+
+	// Computer and Software Skills - 7th Table
+	getComputerAndSoftwareSkills(arrayOfDesiredMinimumQualifications)
+
+	// Education - 10th Table
+	getEducation(arrayOfDesiredMinimumQualifications);
+	
+	// Work Experience - 11th Table
+	getWorkExperience(arrayOfDesiredMinimumQualifications);
+
+	//	Knowledge -	12th Table
+	arrayOfDesiredMinimumQualifications.push($('#results table:nth-child(12) tr:last-child td p').text());
+	console.log(arrayOfDesiredMinimumQualifications);
+
+	// Check if there exists more desired qualifications than available input spaces on the website
+	if(arrayOfDesiredMinimumQualifications.length > 6) {
+		// Add more desired qualifications input spaces
+		for(let i=6; i < arrayOfDesiredMinimumQualifications.length; i++) {
+			$('#desired-qualifications-input-ul').append('<li><textarea class="bulleted-text-area" id="desired-'+i+'-input"></textarea></li><br/>')
+		}
+	}
+	// Enter each essential function into their respective inputs
+	for(let i=0; i<arrayOfDesiredMinimumQualifications.length; i++) {
+		$('#desired-'+i+'-input').val(arrayOfDesiredMinimumQualifications[i]);
+	}
+
+	//////////////
+	// Supervision Exercised
+	// 8th Table 
+	let supervisionExcercisedText = getSupervisionExercisedInfo();
+	$('#supervision-input').val(supervisionExcercisedText);
+}
+
+const getComputerAndSoftwareSkills = (arrayOfDesiredMinimumQualifications) => {
+	// Computer and Software Skills - 7th table
+	let requiredObj = {};
+	let preferredObj = {};
 	$('#results table:nth-child(7) tr:nth-child(3) table tr').each(function(index) {
 		switch(index) {
 			case 0: // fall through
 			case 1: break;
 			case 10: 
 				if($(this).text().includes('☒')) {
-					let reqOrPref = 'preferred'; 
+					let softwareName = $(this).find('td:nth-child(2)').text();
+					let comments = $(this).find('td:nth-child(8)').text();
+					if(comments) {
+						softwareName = softwareName + ' (' + comments + ')'; 
+					}
+
 					if($(this).find('td:nth-child(3)').text().includes('☒')) {
-						let reqOrPref = 'required';
+						requiredObj[softwareName] = 1;
+					} else {
+						preferredObj[softwareName] = 1;
 					}
 					
 					let levelOfProficiency = 'Basic';
@@ -109,26 +153,26 @@ const parseHtml = () => {
 						levelOfProficiency = 'Advanced';
 					}
 
-					let comments = $(this).find('td:nth-child(8)').text();
-
-					arrayOfDesiredMinimumQualifications.push(
-						levelOfProficiency + 
-						' level of proficiency in a specialized skill/software' +
-						' is ' +
-						reqOrPref +
-						' for this position: ' +
-						comments
-					)
+					if(requiredObj[softwareName]) {
+						requiredObj[softwareName] = levelOfProficiency
+					} else {
+						preferredObj[softwareName] = levelOfProficiency
+					}
 				} 
 				break;
 			default: 
 				// If 'this' skill is needed for the position
 				if($(this).text().includes('☒')) {
 					let softwareName = $(this).find('td:first-child').text();
+					let comments = $(this).find('td:nth-child(7)').text();
+					if(comments) {
+						softwareName = softwareName + ' (' + comments + ')'; 
+					}
 
-					let reqOrPref = 'preferred'; 
 					if($(this).find('td:nth-child(2)').text().includes('☒')) {
-						let reqOrPref = 'required';
+						requiredObj[softwareName] = 1;
+					} else {
+						preferredObj[softwareName] = 1;
 					}
 					
 					let levelOfProficiency = 'Basic';
@@ -138,22 +182,32 @@ const parseHtml = () => {
 						levelOfProficiency = 'Advanced';
 					}
 
-					let comments = $(this).find('td:nth-child(7)').text();
-
-					arrayOfDesiredMinimumQualifications.push(
-						levelOfProficiency + 
-						' level of proficiency in ' +
-						softwareName +
-						' is ' +
-						reqOrPref +
-						' for this position. ' +
-						comments
-					) 
+					if(requiredObj[softwareName]) {
+						requiredObj[softwareName] = levelOfProficiency
+					} else {
+						preferredObj[softwareName] = levelOfProficiency
+					}
 				}
 				break;
 		}
 	})
+	
+	arrayOfDesiredMinimumQualifications.push(
+		'Required skills: ' + 
+		Object.keys(requiredObj).map(function(skill) {
+			return ' ' + requiredObj[skill] + ' proficiency with ' + skill;
+		})
+	)
+	
+	arrayOfDesiredMinimumQualifications.push(
+		'Preferred skills: ' + 
+		Object.keys(preferredObj).map(function(skill) {
+			return ' ' + preferredObj[skill] + ' proficiency with ' + skill;
+		})
+	)
+}
 
+const getEducation = (arrayOfDesiredMinimumQualifications) => {
 	// Education - 10th Table
 	$('#results table:nth-child(10) tr:nth-child(3) table tr').each(function(index) {
 		switch(index) {
@@ -175,47 +229,37 @@ const parseHtml = () => {
 				break;
 		}
 	});
-	// TODO:
+}
+
+const getWorkExperience = (arrayOfDesiredMinimumQualifications) => {
 	// Work Experience - 11th Table
+	let minimumWorkExperience = 'Minimum level of related work experience required: '
 	if($('#results table:nth-child(11) tr:nth-child(3)').text().includes('☒')) {
-		let minimumWorkExperience = 'Minimum level of work related experience required: '
 		$('#results table:nth-child(11) tr:nth-child(3) td').each(function(index) {
 			if($(this).text().includes('☒')) {
-				minimumWorkExperience = minimumWorkExperience + $(this).text();
+				minimumWorkExperience = minimumWorkExperience + $(this).text().substring(2) + '. ';
+				arrayOfDesiredMinimumQualifications.push(minimumWorkExperience);
 			}
 		});
 	} else if($('#results table:nth-child(11) tr:nth-child(4)').text().includes('☒')) {
 		$('#results table:nth-child(11) tr:nth-child(4) td').each(function(index) {
 			switch(index) {
-				case 0: 
-				case 1:
-				case 2:
+				case 0: // 1-3 years 
+					// fall through
+				case 1: // 3-5 years
+					if($(this).text().includes('☒')) {
+						minimumWorkExperience = minimumWorkExperience + $(this).text().substring(2) + '. ';
+					}
+					break;
+				case 2: // other
+					break;
+				case 3: // 'other' description
+					minimumWorkExperience = minimumWorkExperience + $(this).text();
+					arrayOfDesiredMinimumQualifications.push(minimumWorkExperience);
+					break;
 			}
 		});
 	}
-
-	//	Knowledge -	12th Table
-	arrayOfDesiredMinimumQualifications.push($('#results table:nth-child(12) tr:last-child td p').text());
-	console.log(arrayOfDesiredMinimumQualifications);
-
-	// Check if there exists more desired qualifications than available input spaces on the website
-	if(arrayOfDesiredMinimumQualifications.length > 6) {
-		// Add more desired qualifications input spaces
-		for(let i=6; i < arrayOfDesiredMinimumQualifications.length; i++) {
-			$('#desired-qualifications-input-ul').append('<li><textarea class="bulleted-text-area" id="essential-'+i+'-input"></textarea></li><br/>')
-		}
-	}
-	// Enter each essential function into their respective inputs
-	for(let i=0; i<arrayOfDesiredMinimumQualifications.length; i++) {
-		$('#desired-'+i+'-input').val(arrayOfDesiredMinimumQualifications[i]);
-	}
-
-	//////////////
-	// Supervision Exercised
-	// 8th Table 
-	let supervisionExcercisedText = getSupervisionExercisedInfo();
-	$('#supervision-input').val(supervisionExcercisedText);
-
 }
 
 const getBasicInfo = () => {

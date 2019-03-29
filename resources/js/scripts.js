@@ -118,8 +118,8 @@
      });
      
      let arrOfDesiredInputs = [];
-     $('#desired-functions-input-ul li').each(function(index) {
-        arrOfDesiredInputs.push($(this).val());
+     $('#desired-qualifications-input-ul li').each(function(index) {
+        arrOfDesiredInputs.push($(this).find('textarea').val());
      });
 
      $('#ul-desired-fill-for-doc li').each(function(index) {
