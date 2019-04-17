@@ -24,15 +24,10 @@ const convertDocxToHtml = (file, res) => {
 module.exports = function(app) {
 
 	app.post('/docx', (req, res) => {
-		// console.log(req.body);
-		
-		// formidable:
-		// console.log(req.fields);
 		if(req.files['file']) {
 			convertDocxToHtml(req.files['file'], res)
 		} else {
 			res.send('We did not receive your file. Please try again.')
-		// res.send('Hello, from docx!');
 		}
 	});
 };
