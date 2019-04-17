@@ -176,6 +176,12 @@ textarea {
     width: 83%;
 }
 
+.deleteButton {
+    float: left;
+    margin-right: 10px;
+    margin-top: 15px;
+}
+
 #form-carousel {
     padding-left: 15%;
     margin-top: 50px;

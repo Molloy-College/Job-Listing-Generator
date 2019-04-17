@@ -5,6 +5,31 @@
      width: 485
  };
 
+ function addEssentialFunctionInputAndFill() {
+    $('#essential-functions-input-ul').append('<li><button type="button" class="btn btn-default btn-sm deleteButton"><i class="far fa-trash-alt"></i></button><textarea class="bulleted-text-area"></textarea><br/></li>');
+			$('#ul-essential-fill-for-doc').append('<li></li>')
+ }
+
+ function addDesiredQualificationsInputAndFill() {
+    $('#desired-qualifications-input-ul').append(
+        '<li><button type="button" class="btn btn-default btn-sm deleteButton"><i class="far fa-trash-alt"></i></button><textarea class="bulleted-text-area"></textarea><br/></li>'
+        );
+    $('#ul-desired-fill-for-doc').append('<li></li>')
+ }
+
+ // event handlers
+ $(document).on('click', '.deleteButton', (function() {
+    $(this).parent().remove();
+ }));
+
+ $(document).on('click', '#essentialFunctionsAddButton', (function() {
+    addEssentialFunctionInputAndFill();
+}));
+
+ $(document).on('click', '#desiredMinimumAddButton', (function() {
+    addDesiredQualificationsInputAndFill()
+ }));
+
  function generatePDFWindow() {
      var pdf = new jsPDF('p', 'pt', 'a4');
      pdf.setFontSize(16);

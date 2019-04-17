@@ -50,12 +50,12 @@ const postDocx = (file) => {
 	$.ajax(settings).done(function (response) {
 	  $('#results').empty();
 	  $('#results').append(response);
-	  parseHtml();
+	  parseHtmlAndFillInputs();
 	  generateWord();
 	});
 };
 
-const parseHtml = () => {
+const parseHtmlAndFillInputs = () => {
 	
 	// index/element: 0/Job Title, 1/Department, 2/Supervisor/Manager's Title
 	let arrayOfBasicInfo = getBasicInfo();
@@ -75,47 +75,48 @@ const parseHtml = () => {
 
 	//////////////
 	// Essential Functions
+		// TODO - finished - incorporate + and - buttons near essential functions that add and delete essential function inputs AND fills
 	let arrayOfEssentialFunctions = getEssentialFunctionsInfo();
+	const numOfEssentialFunctions = arrayOfEssentialFunctions.length;
+	const numOfAvailableEssentialInputs = $('#essential-functions-input-ul').length;
+
 	// Check if there exists more essential functions than available input spaces on the website
-	if(arrayOfEssentialFunctions.length > 6) {
-		// Add more essential function input spaces
-		for(let i=6; i < arrayOfEssentialFunctions.length; i++) {
-			$('#essential-functions-input-ul').append('<li><textarea class="bulleted-text-area" id="essential-'+i+'-input"></textarea></li><br/>')
+	if(numOfEssentialFunctions > numOfAvailableEssentialInputs) {
+		// Add more essential function input and fill spaces. i = number, but not index. id is based on index, which begins at 0.
+		for(let i=numOfAvailableEssentialInputs; i < numOfEssentialFunctions; i++) {
+			addEssentialFunctionInputAndFill();
 		}
-	}
-	// Enter each essential function into their respective inputs
-	for(let i=0; i<arrayOfEssentialFunctions.length; i++) {
-		$('#essential-'+i+'-input').val(arrayOfEssentialFunctions[i]);
-	}
+	} 
+
+	// fill essential functions input fields
+	$('#essential-functions-input-ul li').each(function(index) {
+		$(this).find('textarea').val(arrayOfEssentialFunctions[index])
+	});
 
 	//////////////
 	// DESIRED MINIMUM QUALIFICATIONS
 	let arrayOfDesiredMinimumQualifications = [];
-
-	// Computer and Software Skills - 7th Table
-	getComputerAndSoftwareSkills(arrayOfDesiredMinimumQualifications)
-
-	// Education - 10th Table
-	getEducation(arrayOfDesiredMinimumQualifications);
+	getComputerAndSoftwareSkills(arrayOfDesiredMinimumQualifications) // Computer and Software Skills - 7th Table
+	getEducation(arrayOfDesiredMinimumQualifications); // Education - 10th Table
+	getWorkExperience(arrayOfDesiredMinimumQualifications);// Work Experience - 11th Table
+	arrayOfDesiredMinimumQualifications.push($('#results table:nth-child(12) tr:last-child td p').text()); //	Knowledge -	12th Table
 	
-	// Work Experience - 11th Table
-	getWorkExperience(arrayOfDesiredMinimumQualifications);
+	// TODO - finished - incorporate + and - buttons near desired minimum qualifications that add and delete desired qualifications inputs AND fills
+	const numOfDesiredQualifications = arrayOfDesiredMinimumQualifications.length;
+	const numOfAvailableDesiredQualInputs = $('#desired-qualifications-input-ul').length;
 
-	//	Knowledge -	12th Table
-	arrayOfDesiredMinimumQualifications.push($('#results table:nth-child(12) tr:last-child td p').text());
-	console.log(arrayOfDesiredMinimumQualifications);
-
-	// Check if there exists more desired qualifications than available input spaces on the website
-	if(arrayOfDesiredMinimumQualifications.length > 6) {
-		// Add more desired qualifications input spaces
-		for(let i=6; i < arrayOfDesiredMinimumQualifications.length; i++) {
-			$('#desired-qualifications-input-ul').append('<li><textarea class="bulleted-text-area" id="desired-'+i+'-input"></textarea></li><br/>')
+	// Check if there exists more Desired Functions than available input spaces on the website
+	if(numOfDesiredQualifications > numOfAvailableDesiredQualInputs) {
+		// Add more essential function input and fill spaces. i = number, but not index. id is based on index, which begins at 0.
+		for(let i=numOfAvailableDesiredQualInputs; i < numOfDesiredQualifications; i++) {
+			addDesiredQualificationsInputAndFill();
 		}
-	}
-	// Enter each essential function into their respective inputs
-	for(let i=0; i<arrayOfDesiredMinimumQualifications.length; i++) {
-		$('#desired-'+i+'-input').val(arrayOfDesiredMinimumQualifications[i]);
-	}
+	} 
+
+	// fill desired qualifications input fields
+	$('#desired-qualifications-input-ul li').each(function(index) {
+		$(this).find('textarea').val(arrayOfDesiredMinimumQualifications[index])
+	});
 
 	//////////////
 	// Supervision Exercised

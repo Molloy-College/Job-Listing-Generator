@@ -13,6 +13,7 @@
     <!-- VENDORS -->
     <link href="vendors/css/bootstrap-grid.min.css" rel="stylesheet">
     <link href="vendors/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
 
     <!-- LOCAL -->
     <link href="resources/css/style.css" rel="stylesheet">
@@ -89,31 +90,29 @@
                     <!-- SLIDE 2 -->
                     <h2>Essential Functions: </h2>
                     <ul id="essential-functions-input-ul" style="list-style: none">
-                        <li><textarea class="bulleted-text-area" id="essential-0-input"></textarea></li><br/>
-                        <li><textarea class="bulleted-text-area" id="essential-1-input"></textarea></li><br/>
-                        <li><textarea class="bulleted-text-area" id="essential-2-input"></textarea></li><br/>
-                        <li><textarea class="bulleted-text-area" id="essential-3-input"></textarea></li><br/>
-                        <li><textarea class="bulleted-text-area" id="essential-4-input"></textarea></li><br/>
-                        <li><textarea class="bulleted-text-area" id="essential-5-input"></textarea></li><br/>
+                        <li>
+                            <button type="button" class="btn btn-default btn-sm deleteButton">
+                                    <i class="far fa-trash-alt"></i>
+                            </button>
+                            <textarea class="bulleted-text-area"></textarea>
+                            <br/>
+                        </li>
                     </ul>
+                    <button id="essentialFunctionsAddButton" type="button" class="btn btn-default btn-lg"><i class="far fa-plus-square"></i></button>
                 </div>
                 <div class="carousel-item">
                     <!-- SLIDE 3 -->
                     <h2>Desired Minimum Qualifications: </h2>
                     <ul id="desired-qualifications-input-ul" style="list-style: none">
-                        <li><textarea class="bulleted-text-area" id="desired-0-input"></textarea></li><br/>
-                        <li><textarea class="bulleted-text-area" id="desired-1-input"></textarea></li><br/>
-                        <li><textarea class="bulleted-text-area" id="desired-2-input"></textarea></li><br/>
-                        <li><textarea class="bulleted-text-area" id="desired-3-input"></textarea></li><br/>
-                        <li><textarea class="bulleted-text-area" id="desired-4-input"></textarea></li><br/>
-                        <li><textarea class="bulleted-text-area" id="desired-5-input"></textarea></li><br/>
-<!--                        
-                        <li>Work Experience: <input id="work-input" /><br/><br/></li>
-                        <li>Knowledge: <input id="knowledge-input" /><br/><br/></li>
-                        <li>Education: <input id="education-input" /><br/><br/></li>
-                        <li>Computer and Software Skills: <input id="computer-input" /></li>
--->
+                        <li>
+                            <button type="button" class="btn btn-default btn-sm deleteButton">
+                                    <i class="far fa-trash-alt"></i>
+                            </button>
+                            <textarea class="bulleted-text-area"></textarea>
+                            <br/>
+                        </li>    
                     </ul>
+                    <button id="desiredMinimumAddButton" type="button" class="btn btn-default btn-lg"><i class="far fa-plus-square"></i></button>
                 </div>
                 <div class="carousel-item">
                     <!-- SLIDE 4 -->
@@ -145,23 +144,13 @@
 
             <h3><span style="color: #a50021;"><strong>ESSENTIAL DUTIES AND RESPONSIBILITIES</strong></span></h3>
             <ul id="ul-essential-fill-for-doc">
-                <li id="essential-0-fill"></li>
-                <li id="essential-1-fill"></li>
-                <li id="essential-2-fill"></li>
-                <li id="essential-3-fill"></li>
-                <li id="essential-4-fill"></li>
-                <li id="essential-5-fill"></li>
+                <li></li>
             </ul>
             <div id="essential-fill"></div>
 
             <h3><span style="color: #a50021;"><strong>DESIRED MINIMUM QUALIFICATIONS</strong></span></h3>
             <ul id="ul-desired-fill-for-doc">
-                <li id="desired-0-fill"></li>
-                <li id="desired-1-fill"></li>
-                <li id="desired-2-fill"></li>
-                <li id="desired-3-fill"></li>
-                <li id="desired-4-fill"></li>
-                <li id="desired-5-fill"></li>
+                <li></li>
             </ul>
             <div id="desired-fill"></div>
 
