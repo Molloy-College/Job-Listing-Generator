@@ -171,6 +171,10 @@ button.btn-lg {
     border: 1px solid transparent;
 }
 
+.buttonAddInput {
+    width: 85%;
+}
+
 textarea {
     height: 70px; 
     width: 83%;
