@@ -1,21 +1,21 @@
 $(document).ready(function(){
-	// Resets the file so that if a duplicate file is selected, the '.change' listener will still hit
+	// Resets the file inside the file input tag so that if a duplicate is selected, the '.change' listener that fires the automation will still fire
 	$('input[type="file"]').click(function(){
 		$(this).val('');
 	});
 
-    $('input[type="file"]').change(function(e){
-        const fileName = e.target.files[0].name;
-        const fileExtension = fileName[fileName.length-1] === 'x'? "docx" : fileName[fileName.length-1] === 'f'? "pdf" : "error"
-        if(fileExtension === 'pdf') {
-        	// postPdf(e.target.files[0]);
-        	alert('pdf is currently unsupported. Please convert this file to docx at this site: https://pdf2docx.com/')
-        } else if(fileExtension === 'docx') {
-        	postDocx(e.target.files[0]);
-        } else {
-        	alert('The file you selected ("' + fileName +  '") is not a pdf or a docx document. Please choose a pdf or docx document.');
-        }
-    });
+	$('input[type="file"]').change(function(e){
+			const fileName = e.target.files[0].name;
+			const fileExtension = fileName[fileName.length-1] === 'x'? "docx" : fileName[fileName.length-1] === 'f'? "pdf" : "error"
+			if(fileExtension === 'pdf') {
+				// postPdf(e.target.files[0]);
+				alert('pdf is currently unsupported. Please convert this file to docx at this site: https://www.pdfhero.com/pdf-to-word.php')
+			} else if(fileExtension === 'docx') {
+				postDocx(e.target.files[0]);
+			} else {
+				alert('The file you selected ("' + fileName +  '") is not a pdf or a docx document. Please choose a pdf or docx document.');
+			}
+	});
 });
 
 const findFileExtensionType = (fileName) => {
@@ -49,36 +49,77 @@ const postDocx = (file) => {
 
 	$.ajax(settings).done(function (response) {
 	  $('#results').empty();
-	  $('#results').append(response);
+		$('#results').append(response);
 	  parseHtmlAndFillInputs();
 	  generateWord();
 	});
 };
 
+const cleanString = (string) => {
+	return string.replace(/\s/g,'').toLowerCase();
+}
+
 const parseHtmlAndFillInputs = () => {
-	
-	// index/element: 0/Job Title, 1/Department, 2/Supervisor/Manager's Title
-	let arrayOfBasicInfo = getBasicInfo();
+	let dictOfTables = {
+		'Job Title': null,
+		'Job Summary': null,
+		'Essential Functions': null,
+		'Work Hours and Travel': null,
+		'Computer and Software Skills': null,
+		'Supervisory Responsibilities': null,
+		'Budget Responsibilities': null,
+		'Education': null,
+		'Work Experience': null,
+		'Knowledge': null,
+		'Collaboration/Service': null,
+		'Decision Making': null,
+		'Problem Solving': null,
+		'Independence of Action': null,
+		'Physical/Environmental Demands': null,
+		'Additional Information': null
+	}
+
+	// Run through the document's html once and compartment each table's data into dictOfTables object based on each table's heading name
+	$('#results table tr').each(function(index) {
+		let trText = $(this).text();
+		Object.keys(dictOfTables).forEach((desiredTableName) => {
+			// Check for an exact match of text to sought text
+			if (cleanString(trText) === (cleanString(desiredTableName))) { 
+				dictOfTables[desiredTableName] = $(this).closest('table')
+				
+			} else if(cleanString(trText).includes(cleanString(desiredTableName)) && dictOfTables[desiredTableName] === null) {
+				// search for a 'close enough' match via the existence of the sought text as a substring, rather than an exact match
+				dictOfTables[desiredTableName] = $(this).closest('table')
+			}
+		})
+	})
+
+	// index/element: 0/Job Title, 1/Department, 2/Supervisor/Manager's Title. Not included in dictOfTables object
+	let arrayOfBasicInfo = getBasicInfo(dictOfTables['Job Title']);
 	$('#title-input').val(arrayOfBasicInfo[0]);
 	$('#department-input').val(arrayOfBasicInfo[1]);
 	$('#supervisor-input').val(arrayOfBasicInfo[2]);
 	
-	///////////////
-	// Work Hours and Travel
-	let workHoursAndTravelText = getWorkHoursAndTravelInfo();
+	/**
+	 * Work Hours and Travel
+	 */
+	let workHoursAndTravelText = getWorkHoursAndTravelInfo(dictOfTables['Work Hours and Travel']);
 	$('#hours-input').val(workHoursAndTravelText);
 
 	//////////////
 	// Third table - General Purpose
-	let jobDescription = $('#results table:nth-child(3) tr:nth-child(3) td p').text();
+	let jobDescription = $(dictOfTables['Job Summary']).find('tr:nth-child(3)').text();
 	$('#general-input').val(jobDescription);
 
 	//////////////
 	// Essential Functions
-		// TODO - finished - incorporate + and - buttons near essential functions that add and delete essential function inputs AND fills
-	let arrayOfEssentialFunctions = getEssentialFunctionsInfo();
+	$('#essential-functions-input-ul').empty();
+	let arrayOfEssentialFunctions = getEssentialFunctionsInfo(dictOfTables['Essential Functions']);
 	const numOfEssentialFunctions = arrayOfEssentialFunctions.length;
 	const numOfAvailableEssentialInputs = $('#essential-functions-input-ul').length;
+
+	console.log('numOfEssentialFunctions', numOfEssentialFunctions);
+	console.log('numOfAvailableEssentialInputs', numOfAvailableEssentialInputs);
 
 	// Check if there exists more essential functions than available input spaces on the website
 	if(numOfEssentialFunctions > numOfAvailableEssentialInputs) {
@@ -93,15 +134,17 @@ const parseHtmlAndFillInputs = () => {
 		$(this).find('textarea').val(arrayOfEssentialFunctions[index])
 	});
 
-	//////////////
-	// DESIRED MINIMUM QUALIFICATIONS
+	/**
+	 * DESIRED MINIMUM QUALIFICATIONS
+	 * - utilize array's passing by reference throughout multiple function calls
+	 */
+	$('#desired-qualifications-input-ul').empty();
 	let arrayOfDesiredMinimumQualifications = [];
-	getComputerAndSoftwareSkills(arrayOfDesiredMinimumQualifications) // Computer and Software Skills - 7th Table
-	getEducation(arrayOfDesiredMinimumQualifications); // Education - 10th Table
-	getWorkExperience(arrayOfDesiredMinimumQualifications);// Work Experience - 11th Table
-	arrayOfDesiredMinimumQualifications.push($('#results table:nth-child(12) tr:last-child td p').text()); //	Knowledge -	12th Table
+	getComputerAndSoftwareSkills(arrayOfDesiredMinimumQualifications, dictOfTables['Computer and Software Skills']) // Computer and Software Skills - 7th Table
+	getEducation(arrayOfDesiredMinimumQualifications, dictOfTables['Education']); // Education - 10th Table
+	getWorkExperience(arrayOfDesiredMinimumQualifications, dictOfTables['Work Experience']);// Work Experience - 11th Table
+	arrayOfDesiredMinimumQualifications.push($(dictOfTables['Knowledge']).find('tr:last-child td p').text()); //	Knowledge -	12th Table
 	
-	// TODO - finished - incorporate + and - buttons near desired minimum qualifications that add and delete desired qualifications inputs AND fills
 	const numOfDesiredQualifications = arrayOfDesiredMinimumQualifications.length;
 	const numOfAvailableDesiredQualInputs = $('#desired-qualifications-input-ul').length;
 
@@ -121,15 +164,48 @@ const parseHtmlAndFillInputs = () => {
 	//////////////
 	// Supervision Exercised
 	// 8th Table 
-	let supervisionExcercisedText = getSupervisionExercisedInfo();
+	let supervisionExcercisedText = getSupervisionExercisedInfo(dictOfTables['Supervisory Responsibilities']);
 	$('#supervision-input').val(supervisionExcercisedText);
 }
 
-const getComputerAndSoftwareSkills = (arrayOfDesiredMinimumQualifications) => {
+const getBasicInfo = (basicInfoTable) => {
+	const arrayOfBasicInfo = [];
+	// 2nd table - Position Title, Department, Supervisor, Work Hours, date
+	// 0| Job Title: , 1| Department: , 2| Supervisor/Manager's Title: , 3| Work Hours & Travel
+	$(basicInfoTable).find('tr td p').each(function(index) {
+		let tempText = $(this).text();
+		switch(index) {
+			case 0: // Job Title
+				tempText = tempText.substring(11)
+				arrayOfBasicInfo.push(tempText);
+				break;
+			case 1: // Department
+				tempText = tempText.substring(12)
+				arrayOfBasicInfo.push(tempText);
+				break;
+			case 2: // Supervisor/Manager's Title
+				tempText = tempText.substring(28)
+				arrayOfBasicInfo.push(tempText);
+				break;
+			case 3: // Author of Job Description
+				// tempText = tempText.substring(28)
+				// arrayOfBasicInfo.push(tempText);
+				break;
+			case 4: // Date
+				// tempText = tempText.substring(6)
+				// arrayOfBasicInfo.push(tempText);
+				break;
+			default: break;
+		}
+	});
+	return arrayOfBasicInfo;
+}
+
+const getComputerAndSoftwareSkills = (arrayOfDesiredMinimumQualifications, computerAndSoftwareTable) => {
 	// Computer and Software Skills - 7th table
 	let requiredObj = {};
 	let preferredObj = {};
-	$('#results table:nth-child(7) tr:nth-child(3) table tr').each(function(index) {
+	$(computerAndSoftwareTable).find('tr:nth-child(3) table tr').each(function(index) {
 		switch(index) {
 			case 0: // fall through
 			case 1: break;
@@ -208,9 +284,9 @@ const getComputerAndSoftwareSkills = (arrayOfDesiredMinimumQualifications) => {
 	)
 }
 
-const getEducation = (arrayOfDesiredMinimumQualifications) => {
+const getEducation = (arrayOfDesiredMinimumQualifications, educationTable) => {
 	// Education - 10th Table
-	$('#results table:nth-child(10) tr:nth-child(3) table tr').each(function(index) {
+	$(educationTable).find('tr:nth-child(3) table tr').each(function(index) {
 		switch(index) {
 			case 0: break;
 			default:
@@ -232,18 +308,18 @@ const getEducation = (arrayOfDesiredMinimumQualifications) => {
 	});
 }
 
-const getWorkExperience = (arrayOfDesiredMinimumQualifications) => {
+const getWorkExperience = (arrayOfDesiredMinimumQualifications, workExperienceTable) => {
 	// Work Experience - 11th Table
 	let minimumWorkExperience = 'Minimum level of related work experience required: '
-	if($('#results table:nth-child(11) tr:nth-child(3)').text().includes('☒')) {
-		$('#results table:nth-child(11) tr:nth-child(3) td').each(function(index) {
+	if($(workExperienceTable).find('tr:nth-child(3)').text().includes('☒')) {
+		$(workExperienceTable).find('tr:nth-child(3) td').each(function(index) {
 			if($(this).text().includes('☒')) {
 				minimumWorkExperience = minimumWorkExperience + $(this).text().substring(2) + '. ';
 				arrayOfDesiredMinimumQualifications.push(minimumWorkExperience);
 			}
 		});
-	} else if($('#results table:nth-child(11) tr:nth-child(4)').text().includes('☒')) {
-		$('#results table:nth-child(11) tr:nth-child(4) td').each(function(index) {
+	} else if($(workExperienceTable).find('tr:nth-child(4)').text().includes('☒')) {
+		$(workExperienceTable).find('tr:nth-child(4) td').each(function(index) {
 			switch(index) {
 				case 0: // 1-3 years 
 					// fall through
@@ -263,51 +339,23 @@ const getWorkExperience = (arrayOfDesiredMinimumQualifications) => {
 	}
 }
 
-const getBasicInfo = () => {
-	const arrayOfBasicInfo = [];
-	// 2nd table - Position Title, Department, Supervisor, Work Hours, date
-	// 0| Job Title: , 1| Department: , 2| Supervisor/Manager's Title: , 3| Work Hours & Travel
-	$('#results table:nth-child(2) tr td p').each(function(index) {
-		let tempText = $(this).text();
-		switch(index) {
-			case 0: // Job Title
-				tempText = tempText.substring(11)
-				arrayOfBasicInfo.push(tempText);
-				break;
-			case 1: // Department
-				tempText = tempText.substring(12)
-				arrayOfBasicInfo.push(tempText);
-				break;
-			case 2: // Supervisor/Manager's Title
-				tempText = tempText.substring(28)
-				arrayOfBasicInfo.push(tempText);
-				break;
-			case 3: // Author of Job Description
-				// tempText = tempText.substring(28)
-				// arrayOfBasicInfo.push(tempText);
-				break;
-			case 4: // Date
-				// tempText = tempText.substring(6)
-				// arrayOfBasicInfo.push(tempText);
-				break;
-			default: break;
-		}
-	});
-	return arrayOfBasicInfo;
-}
-
-const getEssentialFunctionsInfo = () => {
+const getEssentialFunctionsInfo = (essentialFunctionsTable) => {
 	let arrayOfEssentialFunctions = [];
 
+	console.log(essentialFunctionsTable)
 	// Fourth table
-	$('#results table:nth-child(5) tr').each(function(index) {
+	$(essentialFunctionsTable).find('tr').each(function(index) {
 		switch(index) {
 			case 0:
 				break;
 			case 1:
 				break;
 			default:
-				arrayOfEssentialFunctions.push($(this).find('td[colspan=3] p:nth-child(1)').text());
+				// even index = descriptive information we want. 
+				// odd index = '_ % of time' section
+				if(index%2===0){
+					arrayOfEssentialFunctions.push($(this).text());
+				}
 				break;
 		}
 	});
@@ -320,11 +368,9 @@ const getEssentialFunctionsInfo = () => {
 	return arrayOfEssentialFunctions;
 }
 
-const getWorkHoursAndTravelInfo = () => {
-	// Fifth Table
-	// Work Hours and Travel - 'Select all that apply: ☐ or ☒'
-	let workHoursAndTravelText = '';
-	$('#results table:nth-child(6) tr').each(function(index) {
+const getWorkHoursAndTravelInfo = (workHoursTable) => {
+	let workHoursAndTravelText = ''
+	$(workHoursTable).find('tr').each(function(index) {
 		switch(index){
 			case 2: // ☐ Requiried to be on campus during core days/hours of 
 				if( $(this).text().includes('☒') ) {
@@ -336,7 +382,7 @@ const getWorkHoursAndTravelInfo = () => {
 					workHoursAndTravelText = workHoursAndTravelText + 'Work hours and location may be flexible under some circumstances. The employee will work ' + $(this).find('td:last-child').text() + '. ';
 				}
 				break;
-			case 4: // ☐ 12 month ☐ Summer off Number of weeks off:
+			/*case 4: // ☐ 12 month ☐ Summer off Number of weeks off:
 				if( $(this).find('td').text().includes('☒') ) { // 12 month
 					workHoursAndTravelText = workHoursAndTravelText + 'This job operates on a 12 month working schedule. ';
 				}
@@ -348,7 +394,7 @@ const getWorkHoursAndTravelInfo = () => {
 				if( $(this).find('td:last-child').text() ) { 
 					workHoursAndTravelText = workHoursAndTravelText + 'We also offer ' + $(this).find('td:last-child').text() + ' weeks off. ';
 				}
-				break;
+				break;*/
 			case 5: // ☐ Part Time:
 				if( $(this).find('td').text().includes('☒') ) {
 					workHoursAndTravelText = workHoursAndTravelText + 'This position is Part Time: ' + $(this).find('td:last-child').text() + '. ';
@@ -377,9 +423,9 @@ const getWorkHoursAndTravelInfo = () => {
 	return workHoursAndTravelText;
 }
 
-const getSupervisionExercisedInfo = () => {
+const getSupervisionExercisedInfo = (supervisionTable) => {
 	let supervisionExcercisedText = '';
-	$('#results table:nth-child(8) tr').each(function(index) {
+	$(supervisionTable).find('tr').each(function(index) {
 		switch(index){
 			case 2: // ☐ Not responsible for supervising others (students, staff, administrator employees)
 				// Fall Through

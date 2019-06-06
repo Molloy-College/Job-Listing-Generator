@@ -154,7 +154,7 @@
      $('#supervision-fill').append($('#supervision-input').val());
  }
 
- function resetElements() {
+ function resetStaticElements() {
      $('#position-title-top').empty();
      $('#bottom-title').empty();
      $('#department-fill').empty();
@@ -167,28 +167,25 @@
      $('#essential-fill').empty();
      $('#desired-fill').empty();
      $('#supervision-fill').empty();
-     $('#essential-1-fill').empty();
-     $('#essential-2-fill').empty();
-     $('#essential-3-fill').empty();
-     $('#essential-4-fill').empty();
-     $('#essential-5-fill').empty();
-     $('#essential-6-fill').empty();
-     $('#desired-1-fill').empty();
-     $('#desired-2-fill').empty();
-     $('#desired-3-fill').empty();
-     $('#desired-4-fill').empty();
-     $('#desired-5-fill').empty();
-     $('#desired-6-fill').empty();
+
+    //  $('#ul-essential-fill-for-doc').empty();
+    //  $('#ul-desired-fill-for-doc').empty();
+ }
+
+ function resetJobListingListItems() {
+    $('#ul-essential-fill-for-doc').empty();
+    $('#ul-desired-fill-for-doc').empty();
  }
 
 function generateWord() {
-    resetElements();
+    resetStaticElements();
     assignTextFields();
-    $('.word-content').wordExport();
+    $('.word-content').wordExport('Automatic Job Listing');
+    resetJobListingListItems();
 }
 
 function generatePDF() {
-    resetElements();
+    resetStaticElements();
     assignTextFields();
     generatePDFWindow();
 }
