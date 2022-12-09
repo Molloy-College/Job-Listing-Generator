@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-formidable": "^1.2.0",
     "mammoth": "^1.4.8",
     "pdf-table-extractor": "^1.0.3",
